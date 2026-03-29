@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cart</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="navbar">
+    <h1>Your Cart</h1>
+    <a href="index.html">Home</a>
+</header>
+
+<div id="cart-items"></div>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+let container = document.getElementById("cart-items");
+
+cart.forEach(item => {
+    let div = document.createElement("div");
+    div.innerHTML = item.name + " - ₹" + item.price;
+    container.appendChild(div);
+});
+</script>
+
+</body>
+</html>
