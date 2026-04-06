@@ -1,0 +1,54 @@
+
+{% for post in posts %}
+<div class="post">
+    <p><b>{{ post.user.username }}</b></p>
+    <p>{{ post.content }}</p>
+    <small>{{ post.created_at }}</small>
+
+    <!-- Comment Form -->
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="post_id" value="{{ post.id }}">
+        <input type="text" name="comment_text" placeholder="Write comment...">
+        <button type="submit">Comment</button>
+    </form>
+
+    enctype="multipart/form-data"
+
+    <!-- Show Comments -->
+    {% for comment in post.comment_set.all %}
+        <p>👉 <b>{{ comment.user.username }}</b>: {{ comment.text }}</p>
+    {% endfor %}
+
+    <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <textarea name="content" placeholder="Write something..."></textarea>
+    
+    <input type="file" name="image">
+    
+    <button type="submit">Post</button>
+</form>
+
+  </div>
+{% endfor %}
+
+<h2>People</h2>
+
+{% for user in users %}
+    <p>
+        {{ user.username }}
+        <a href="{% url 'follow' user.id %}">Follow</a>
+    </p>
+{% endfor %}
+
+<h3>Users to follow</h3>
+<ul>
+{% for user in users %}
+    <li>
+        <a href="{% url 'profile' user.username %}">{{ user.username }}</a>
+        <a href="{% url 'follow_user' user.id %}">Follow</a>
+    </li>
+{% endfor %}
+</ul>
+

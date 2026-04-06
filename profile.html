@@ -1,0 +1,30 @@
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.home, name='home'),
+    path('profile/<str:username>/', views.profile, name='profile'),
+    path('search/', views.search, name='search'),
+    path('follow/<int:user_id>/', views.follow_user, name='follow_user'),
+]<h2>{{ profile_user.username }}</h2>
+{% if profile.profile_pic %}
+    <img src="{{ profile.profile_pic.url }}" width="150">
+{% endif %}
+<p>{{ profile.bio }}</p>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <textarea name="bio" placeholder="Update bio">{{ profile.bio }}</textarea>
+    <input type="file" name="profile_pic">
+    <button type="submit">Update</button>
+</form>
+
+<h3>Posts</h3>
+{% for post in posts %}
+    <p>{{ post.content }}</p>
+    {% if post.image %}
+        <img src="{{ post.image.url }}" width="300">
+    {% endif %}
+{% endfor %}
+<a href="{% url 'follow_user' user.id %}">Follow</a>
+<a href="{% url 'profile' user.username %}">{{ user.username }}</a>
